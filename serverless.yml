@@ -1,0 +1,28 @@
+service: my-nestjs-app
+
+frameworkVersion: '4'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  architecture: arm64
+  stage: production
+  region: us-east-1
+  memorySize: 256
+  logRetentionInDays: 1
+  timeout: 15 # Ajusta según lo necesario
+
+deploymentBucket:
+  name: serverless-framework-deployments-us-east-1-8aa7f440-8375
+
+functions:
+  api:
+    handler: dist/lambda.handler
+    events:
+      - httpApi:
+          path: /{proxy+}
+          method: any
+
+plugins:
+  - serverless-jetpack
+  - serverless-offline
