@@ -1,7 +1,7 @@
 {
   "C:\\Users\\bryan\\AwsLogs\\awslogs": {
     "versionSfCore": null,
-    "versionFramework": "4.4.13",
+    "versionFramework": "4.4.16",
     "isWithinCompose": false,
     "isCompose": false,
     "composeOrgName": null,
@@ -117,7 +117,7 @@
                     "Properties": {
                       "Code": {
                         "S3Bucket": "serverless-framework-deployments-us-east-1-8aa7f440-8375",
-                        "S3Key": "serverless/my-nestjs-app/production/1733241587948-2024-12-03T15:59:47.948Z/my-nestjs-app.zip"
+                        "S3Key": "serverless/my-nestjs-app/production/1734037436943-2024-12-12T21:03:56.943Z/my-nestjs-app.zip"
                       },
                       "Handler": "dist/lambda.handler",
                       "Runtime": "nodejs18.x",
@@ -138,14 +138,14 @@
                       "ApiLogGroup"
                     ]
                   },
-                  "ApiLambdaVersion21jNg0JmHXEhF5hh83g0H1sOIMsFNZSpRJMOmR4": {
+                  "ApiLambdaVersionFWL6QnLmbViHaniq4GaPhLHOKpV1NuAhKhNygyEJynQ": {
                     "Type": "AWS::Lambda::Version",
                     "DeletionPolicy": "Retain",
                     "Properties": {
                       "FunctionName": {
                         "Ref": "ApiLambdaFunction"
                       },
-                      "CodeSha256": "dCarDtjPJ3EMbNBbF7dw5eHA7UdWaXosUhIo9mhOq+o="
+                      "CodeSha256": "rMXxuP4AwBPQd8xwdo949rS8P9yXqOdbW3yZB3ehc80="
                     }
                   },
                   "HttpApi": {
@@ -254,7 +254,7 @@
                   "ApiLambdaFunctionQualifiedArn": {
                     "Description": "Current Lambda function version",
                     "Value": {
-                      "Ref": "ApiLambdaVersion21jNg0JmHXEhF5hh83g0H1sOIMsFNZSpRJMOmR4"
+                      "Ref": "ApiLambdaVersionFWL6QnLmbViHaniq4GaPhLHOKpV1NuAhKhNygyEJynQ"
                     },
                     "Export": {
                       "Name": "sls-my-nestjs-app-production-ApiLambdaFunctionQualifiedArn"
@@ -320,7 +320,7 @@
                 "timeout": 15,
                 "runtime": "nodejs18.x",
                 "vpc": {},
-                "versionLogicalId": "ApiLambdaVersion21jNg0JmHXEhF5hh83g0H1sOIMsFNZSpRJMOmR4"
+                "versionLogicalId": "ApiLambdaVersionFWL6QnLmbViHaniq4GaPhLHOKpV1NuAhKhNygyEJynQ"
               }
             },
             "plugins": [
@@ -455,7 +455,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-us-east-1-8aa7f440-8375",
-                  "S3Key": "serverless/my-nestjs-app/production/1733241587948-2024-12-03T15:59:47.948Z/my-nestjs-app.zip"
+                  "S3Key": "serverless/my-nestjs-app/production/1734037436943-2024-12-12T21:03:56.943Z/my-nestjs-app.zip"
                 },
                 "Handler": "dist/lambda.handler",
                 "Runtime": "nodejs18.x",
@@ -476,14 +476,14 @@
                 "ApiLogGroup"
               ]
             },
-            "ApiLambdaVersion21jNg0JmHXEhF5hh83g0H1sOIMsFNZSpRJMOmR4": {
+            "ApiLambdaVersionFWL6QnLmbViHaniq4GaPhLHOKpV1NuAhKhNygyEJynQ": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "ApiLambdaFunction"
                 },
-                "CodeSha256": "dCarDtjPJ3EMbNBbF7dw5eHA7UdWaXosUhIo9mhOq+o="
+                "CodeSha256": "rMXxuP4AwBPQd8xwdo949rS8P9yXqOdbW3yZB3ehc80="
               }
             },
             "HttpApi": {
@@ -592,7 +592,7 @@
             "ApiLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "ApiLambdaVersion21jNg0JmHXEhF5hh83g0H1sOIMsFNZSpRJMOmR4"
+                "Ref": "ApiLambdaVersionFWL6QnLmbViHaniq4GaPhLHOKpV1NuAhKhNygyEJynQ"
               },
               "Export": {
                 "Name": "sls-my-nestjs-app-production-ApiLambdaFunctionQualifiedArn"
@@ -658,7 +658,7 @@
           "timeout": 15,
           "runtime": "nodejs18.x",
           "vpc": {},
-          "versionLogicalId": "ApiLambdaVersion21jNg0JmHXEhF5hh83g0H1sOIMsFNZSpRJMOmR4"
+          "versionLogicalId": "ApiLambdaVersionFWL6QnLmbViHaniq4GaPhLHOKpV1NuAhKhNygyEJynQ"
         }
       },
       "plugins": [
@@ -696,24 +696,24 @@
     "serviceProviderAwsCredentials": "<REDACTED>",
     "serviceProviderAwsAccountId": "202533511881",
     "projectType": "traditional",
-    "versionSf": "4.4.13",
+    "versionSf": "4.4.16",
     "serviceProviderAwsCfStackName": "my-nestjs-app-production",
     "integrations": {},
-    "serviceUniqueId": "arn:aws:cloudformation:us-east-1:202533511881:stack/my-nestjs-app-production/a34a4d10-b18f-11ef-88d2-12b4922b6bbb",
-    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:202533511881:stack/my-nestjs-app-production/a34a4d10-b18f-11ef-88d2-12b4922b6bbb",
-    "serviceProviderAwsCfStackCreated": "2024-12-03T15:59:55.088Z",
+    "serviceUniqueId": "arn:aws:cloudformation:us-east-1:202533511881:stack/my-nestjs-app-production/9eeb3ab0-b8cc-11ef-a1b2-0affe69900f7",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:202533511881:stack/my-nestjs-app-production/9eeb3ab0-b8cc-11ef-a1b2-0affe69900f7",
+    "serviceProviderAwsCfStackCreated": "2024-12-12T21:04:05.228Z",
     "serviceProviderAwsCfStackUpdated": null,
     "serviceProviderAwsCfStackStatus": "CREATE_COMPLETE",
     "serviceProviderAwsCfStackOutputs": [
       {
         "OutputKey": "ApiLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:202533511881:function:my-nestjs-app-production-api:6",
+        "OutputValue": "arn:aws:lambda:us-east-1:202533511881:function:my-nestjs-app-production-api:28",
         "Description": "Current Lambda function version",
         "ExportName": "sls-my-nestjs-app-production-ApiLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "HttpApiId",
-        "OutputValue": "xjj6nnfjx4",
+        "OutputValue": "qlfm19lirf",
         "Description": "Id of the HTTP API",
         "ExportName": "sls-my-nestjs-app-production-HttpApiId"
       },
@@ -724,7 +724,7 @@
       },
       {
         "OutputKey": "HttpApiUrl",
-        "OutputValue": "https://xjj6nnfjx4.execute-api.us-east-1.amazonaws.com",
+        "OutputValue": "https://qlfm19lirf.execute-api.us-east-1.amazonaws.com",
         "Description": "URL of the HTTP API",
         "ExportName": "sls-my-nestjs-app-production-HttpApiUrl"
       }
