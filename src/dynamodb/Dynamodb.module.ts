@@ -8,7 +8,7 @@ import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
       provide: 'DYNAMODB_CLIENT',
       useFactory: () => {
         const client = new DynamoDBClient({
-          region: 'us-east-1', // Cambia por tu región
+          region: 'us-east-2', // Cambia por tu región
           ...(process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY
             ? {
                 credentials: {
