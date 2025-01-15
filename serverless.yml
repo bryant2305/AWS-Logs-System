@@ -7,13 +7,10 @@ provider:
   runtime: nodejs18.x
   architecture: arm64
   stage: production
-  region: us-east-1
+  region: us-east-2
   memorySize: 256
   logRetentionInDays: 1
   timeout: 15 # Ajusta según lo necesario
-
-deploymentBucket:
-  name: serverless-framework-deployments-us-east-1-8aa7f440-8375
 
 functions:
   api:
