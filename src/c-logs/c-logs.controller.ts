@@ -1,22 +1,29 @@
 import { Controller, Body, Post, Get, Query } from '@nestjs/common';
-import { CLogsService } from './c-logs.service';
 import { DynamoDBService } from 'src/dynamodb/dynamodb.service';
 import { ApiBody, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CreateCLogDto } from './dto/create-c-log.dto';
+import { SnsService } from 'src/sns/sns.service';
 
 @Controller('c-logs')
 @ApiTags('c-logs')
 export class CLogsController {
   constructor(
-    private readonly cLogsService: CLogsService,
     private dynamoDBService: DynamoDBService,
+    private readonly snsService: SnsService,
   ) {}
 
   @Post('add-logs')
   @ApiBody({ type: CreateCLogDto })
   async addLog(@Body() log: CreateCLogDto) {
+    console.log('Recibido log:', log);
+
     await this.dynamoDBService.putItem('Logs', log);
-    return { message: 'Log added successfully' };
+    console.log('Log guardado en DynamoDB');
+
+    await this.snsService.publishMessage(JSON.stringify(log));
+    console.log('Mensaje enviado a SNS');
+
+    return { message: 'Log added successfullyy' };
   }
 
   @Get('get-logs')

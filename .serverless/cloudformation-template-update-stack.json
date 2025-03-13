@@ -2,6 +2,75 @@
   "AWSTemplateFormatVersion": "2010-09-09",
   "Description": "The AWS CloudFormation template for this Serverless application",
   "Resources": {
+    "ServerlessDeploymentBucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "ServerlessDeploymentBucketPolicy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "ServerlessDeploymentBucket"
+        },
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "s3:*",
+              "Effect": "Deny",
+              "Principal": "*",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::",
+                      {
+                        "Ref": "ServerlessDeploymentBucket"
+                      },
+                      "/*"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::",
+                      {
+                        "Ref": "ServerlessDeploymentBucket"
+                      }
+                    ]
+                  ]
+                }
+              ],
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": false
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
     "ApiLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
@@ -66,6 +135,30 @@
                       "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/my-nestjs-app-production*:*:*"
                     }
                   ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:PutItem",
+                    "dynamodb:Scan",
+                    "dynamodb:Query",
+                    "dynamodb:GetItem",
+                    "dynamodb:UpdateItem",
+                    "dynamodb:DeleteItem"
+                  ],
+                  "Resource": [
+                    "arn:aws:dynamodb:us-east-2:343218210324:table/Logs",
+                    "arn:aws:dynamodb:us-east-2:343218210324:table/Logs/index/*"
+                  ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "sns:Publish"
+                  ],
+                  "Resource": {
+                    "Ref": "LogSNSTopic"
+                  }
                 }
               ]
             }
@@ -91,8 +184,10 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": "serverless-framework-deployments-us-east-2-2a070f22-5880",
-          "S3Key": "serverless/my-nestjs-app/production/1736887394311-2025-01-14T20:43:14.311Z/my-nestjs-app.zip"
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/my-nestjs-app/production/1741883594559-2025-03-13T16:33:14.559Z/my-nestjs-app.zip"
         },
         "Handler": "dist/lambda.handler",
         "Runtime": "nodejs18.x",
@@ -102,6 +197,13 @@
         "Architectures": [
           "arm64"
         ],
+        "Environment": {
+          "Variables": {
+            "SNS_TOPIC_ARN": {
+              "Ref": "LogSNSTopic"
+            }
+          }
+        },
         "Role": {
           "Fn::GetAtt": [
             "IamRoleLambdaExecution",
@@ -113,14 +215,14 @@
         "ApiLogGroup"
       ]
     },
-    "ApiLambdaVersionmo63OAZzI8Kg1EuuBYOs1MJdOnkI9K1UCoCj5Gv2npk": {
+    "ApiLambdaVersionJuF17nU7uDDCjufGzQTVERV5559dL7Aqn3HCLVw5x4": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ApiLambdaFunction"
         },
-        "CodeSha256": "cuEYRtVXwGWTUAY49Hh8YCy5UXQBkdOm6BJkhJ7Atzc="
+        "CodeSha256": "gXxLYITbruUWwSsJL0v0VPWTMScMgAaon6wo1I55Vgc="
       }
     },
     "HttpApi": {
@@ -217,11 +319,19 @@
         }
       },
       "DependsOn": "HttpApiIntegrationApi"
+    },
+    "LogSNSTopic": {
+      "Type": "AWS::SNS::Topic",
+      "Properties": {
+        "TopicName": "log-events-topic"
+      }
     }
   },
   "Outputs": {
     "ServerlessDeploymentBucketName": {
-      "Value": "serverless-framework-deployments-us-east-2-2a070f22-5880",
+      "Value": {
+        "Ref": "ServerlessDeploymentBucket"
+      },
       "Export": {
         "Name": "sls-my-nestjs-app-production-ServerlessDeploymentBucketName"
       }
@@ -229,7 +339,7 @@
     "ApiLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ApiLambdaVersionmo63OAZzI8Kg1EuuBYOs1MJdOnkI9K1UCoCj5Gv2npk"
+        "Ref": "ApiLambdaVersionJuF17nU7uDDCjufGzQTVERV5559dL7Aqn3HCLVw5x4"
       },
       "Export": {
         "Name": "sls-my-nestjs-app-production-ApiLambdaFunctionQualifiedArn"
