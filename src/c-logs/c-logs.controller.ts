@@ -15,7 +15,7 @@ export class CLogsController {
   @Post('add-logs')
   @ApiBody({ type: CreateCLogDto })
   async addLog(@Body() log: CreateCLogDto) {
-    console.log('Recibido log:', log);
+    console.log('Recibido logg:', log);
 
     await this.dynamoDBService.putItem('Logs', log);
     console.log('Log guardado en DynamoDB');

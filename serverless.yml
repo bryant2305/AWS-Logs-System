@@ -12,9 +12,6 @@ provider:
   logRetentionInDays: 1
   timeout: 15
 
-  environment:
-    SNS_TOPIC_ARN: !Ref LogSNSTopic 
-
   iam:
     role:
       statements:

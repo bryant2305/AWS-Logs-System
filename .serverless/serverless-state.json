@@ -13,11 +13,6 @@
       "memorySize": 256,
       "logRetentionInDays": 1,
       "timeout": 15,
-      "environment": {
-        "SNS_TOPIC_ARN": {
-          "Ref": "LogSNSTopic"
-        }
-      },
       "iam": {
         "role": {
           "statements": [
@@ -220,7 +215,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/my-nestjs-app/production/1741883594559-2025-03-13T16:33:14.559Z/my-nestjs-app.zip"
+                "S3Key": "serverless/my-nestjs-app/production/1742218255763-2025-03-17T13:30:55.763Z/my-nestjs-app.zip"
               },
               "Handler": "dist/lambda.handler",
               "Runtime": "nodejs18.x",
@@ -230,13 +225,6 @@
               "Architectures": [
                 "arm64"
               ],
-              "Environment": {
-                "Variables": {
-                  "SNS_TOPIC_ARN": {
-                    "$ref": "$[\"service\"][\"provider\"][\"environment\"][\"SNS_TOPIC_ARN\"]"
-                  }
-                }
-              },
               "Role": {
                 "Fn::GetAtt": [
                   "IamRoleLambdaExecution",
@@ -248,14 +236,14 @@
               "ApiLogGroup"
             ]
           },
-          "ApiLambdaVersionJuF17nU7uDDCjufGzQTVERV5559dL7Aqn3HCLVw5x4": {
+          "ApiLambdaVersionwfwVwfm7pKN8cjyWfeFai6U3bdnvs1hkixTKOhABe14": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ApiLambdaFunction"
               },
-              "CodeSha256": "gXxLYITbruUWwSsJL0v0VPWTMScMgAaon6wo1I55Vgc="
+              "CodeSha256": "j/b3wc9AiJtEMh2QzickvUEW40BAYhEiAZjFU9IqrBg="
             }
           },
           "HttpApi": {
@@ -369,7 +357,7 @@
           "ApiLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ApiLambdaVersionJuF17nU7uDDCjufGzQTVERV5559dL7Aqn3HCLVw5x4"
+              "Ref": "ApiLambdaVersionwfwVwfm7pKN8cjyWfeFai6U3bdnvs1hkixTKOhABe14"
             },
             "Export": {
               "Name": "sls-my-nestjs-app-production-ApiLambdaFunctionQualifiedArn"
@@ -519,7 +507,7 @@
         "timeout": 15,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "ApiLambdaVersionJuF17nU7uDDCjufGzQTVERV5559dL7Aqn3HCLVw5x4"
+        "versionLogicalId": "ApiLambdaVersionwfwVwfm7pKN8cjyWfeFai6U3bdnvs1hkixTKOhABe14"
       }
     },
     "resources": {
@@ -555,7 +543,7 @@
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/my-nestjs-app/production/1741883594559-2025-03-13T16:33:14.559Z",
+    "artifactDirectoryName": "serverless/my-nestjs-app/production/1742218255763-2025-03-17T13:30:55.763Z",
     "artifact": "my-nestjs-app.zip"
   }
 }
