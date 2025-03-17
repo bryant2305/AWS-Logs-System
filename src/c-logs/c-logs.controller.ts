@@ -18,10 +18,8 @@ export class CLogsController {
     console.log('Recibido logg:', log);
 
     await this.dynamoDBService.putItem('Logs', log);
-    console.log('Log guardado en DynamoDB');
 
-    await this.snsService.publishMessage(JSON.stringify(log));
-    console.log('Mensaje enviado a SNS');
+    await this.snsService.publishMessage(log.level, JSON.stringify(log));
 
     return { message: 'Log added successfullyy' };
   }

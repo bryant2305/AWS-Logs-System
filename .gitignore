@@ -8,6 +8,7 @@ yarn-error.log*
 .serverless/
 .sls-next/
 .slsignore
+.my-nest-app.zip
 
 # Directorios de compilación
 dist/

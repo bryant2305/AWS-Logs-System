@@ -36,9 +36,17 @@
               "Action": [
                 "sns:Publish"
               ],
-              "Resource": {
-                "Ref": "LogSNSTopic"
-              }
+              "Resource": [
+                {
+                  "Ref": "ErrorSNSTopic"
+                },
+                {
+                  "Ref": "WarningSNSTopic"
+                },
+                {
+                  "Ref": "InfoSNSTopic"
+                }
+              ]
             }
           ]
         }
@@ -215,7 +223,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/my-nestjs-app/production/1742218255763-2025-03-17T13:30:55.763Z/my-nestjs-app.zip"
+                "S3Key": "serverless/my-nestjs-app/production/1742220420756-2025-03-17T14:07:00.756Z/my-nestjs-app.zip"
               },
               "Handler": "dist/lambda.handler",
               "Runtime": "nodejs18.x",
@@ -236,14 +244,14 @@
               "ApiLogGroup"
             ]
           },
-          "ApiLambdaVersionwfwVwfm7pKN8cjyWfeFai6U3bdnvs1hkixTKOhABe14": {
+          "ApiLambdaVersionkLJsJSj2Hz01lae5S3jRoYGVhaIzWiycCCnsRMtAZI": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ApiLambdaFunction"
               },
-              "CodeSha256": "j/b3wc9AiJtEMh2QzickvUEW40BAYhEiAZjFU9IqrBg="
+              "CodeSha256": "0Co/lFkyfp1CG80wZs6TH1vKAF5wZzJprmmVOovYNoA="
             }
           },
           "HttpApi": {
@@ -338,10 +346,22 @@
             },
             "DependsOn": "HttpApiIntegrationApi"
           },
-          "LogSNSTopic": {
+          "ErrorSNSTopic": {
             "Type": "AWS::SNS::Topic",
             "Properties": {
-              "TopicName": "log-events-topic"
+              "TopicName": "error-logs-topic"
+            }
+          },
+          "WarningSNSTopic": {
+            "Type": "AWS::SNS::Topic",
+            "Properties": {
+              "TopicName": "warning-logs-topic"
+            }
+          },
+          "InfoSNSTopic": {
+            "Type": "AWS::SNS::Topic",
+            "Properties": {
+              "TopicName": "info-logs-topic"
             }
           }
         },
@@ -357,7 +377,7 @@
           "ApiLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ApiLambdaVersionwfwVwfm7pKN8cjyWfeFai6U3bdnvs1hkixTKOhABe14"
+              "Ref": "ApiLambdaVersionkLJsJSj2Hz01lae5S3jRoYGVhaIzWiycCCnsRMtAZI"
             },
             "Export": {
               "Name": "sls-my-nestjs-app-production-ApiLambdaFunctionQualifiedArn"
@@ -507,15 +527,27 @@
         "timeout": 15,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "ApiLambdaVersionwfwVwfm7pKN8cjyWfeFai6U3bdnvs1hkixTKOhABe14"
+        "versionLogicalId": "ApiLambdaVersionkLJsJSj2Hz01lae5S3jRoYGVhaIzWiycCCnsRMtAZI"
       }
     },
     "resources": {
       "Resources": {
-        "LogSNSTopic": {
+        "ErrorSNSTopic": {
           "Type": "AWS::SNS::Topic",
           "Properties": {
-            "TopicName": "log-events-topic"
+            "TopicName": "error-logs-topic"
+          }
+        },
+        "WarningSNSTopic": {
+          "Type": "AWS::SNS::Topic",
+          "Properties": {
+            "TopicName": "warning-logs-topic"
+          }
+        },
+        "InfoSNSTopic": {
+          "Type": "AWS::SNS::Topic",
+          "Properties": {
+            "TopicName": "info-logs-topic"
           }
         }
       },
@@ -543,7 +575,7 @@
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/my-nestjs-app/production/1742218255763-2025-03-17T13:30:55.763Z",
+    "artifactDirectoryName": "serverless/my-nestjs-app/production/1742220420756-2025-03-17T14:07:00.756Z",
     "artifact": "my-nestjs-app.zip"
   }
 }

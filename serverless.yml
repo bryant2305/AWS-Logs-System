@@ -30,14 +30,27 @@ provider:
         - Effect: Allow
           Action:
             - sns:Publish
-          Resource: !Ref LogSNSTopic
+          Resource:
+            - !Ref ErrorSNSTopic
+            - !Ref WarningSNSTopic
+            - !Ref InfoSNSTopic
 
 resources:
   Resources:
-    LogSNSTopic:
+    ErrorSNSTopic:
       Type: AWS::SNS::Topic
       Properties:
-        TopicName: log-events-topic
+        TopicName: error-logs-topic
+
+    WarningSNSTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: warning-logs-topic
+
+    InfoSNSTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: info-logs-topic
 
 functions:
   api:
