@@ -1,6 +1,6 @@
 service: my-nestjs-app
 
-frameworkVersion: '4'
+frameworkVersion: '3'
 
 provider:
   name: aws
@@ -10,7 +10,47 @@ provider:
   region: us-east-2
   memorySize: 256
   logRetentionInDays: 1
-  timeout: 15 # Ajusta según lo necesario
+  timeout: 15
+
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+            - dynamodb:Scan
+            - dynamodb:Query
+            - dynamodb:GetItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - arn:aws:dynamodb:us-east-2:343218210324:table/Logs
+            - arn:aws:dynamodb:us-east-2:343218210324:table/Logs/index/*
+
+        - Effect: Allow
+          Action:
+            - sns:Publish
+          Resource:
+            - !Ref ErrorSNSTopic
+            - !Ref WarningSNSTopic
+            - !Ref InfoSNSTopic
+
+resources:
+  Resources:
+    ErrorSNSTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: error-logs-topic
+
+    WarningSNSTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: warning-logs-topic
+
+    InfoSNSTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: info-logs-topic
 
 functions:
   api:
