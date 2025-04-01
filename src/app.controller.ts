@@ -9,4 +9,8 @@ export class AppController {
   getDocsDebug() {
     return { message: 'Swagger docs route is accessible!' };
   }
+  @Get('/debug-sentry')
+  getError() {
+    throw new Error('My first Sentry error!');
+  }
 }
