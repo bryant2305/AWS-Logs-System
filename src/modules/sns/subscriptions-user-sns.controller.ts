@@ -1,6 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
-import { SnsService } from 'src/sns/sns.service';
+import { SnsService } from 'src/modules/sns/sns.service';
 import { SubscriptionUserSnsDto } from './dto/subcription-user.dto';
 
 @Controller('subscriptions')

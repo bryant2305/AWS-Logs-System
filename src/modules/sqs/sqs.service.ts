@@ -4,7 +4,7 @@ import {
   ReceiveMessageCommand,
   DeleteMessageCommand,
 } from '@aws-sdk/client-sqs';
-import { SnsService } from 'src/sns/sns.service';
+import { SnsService } from 'src/modules/sns/sns.service';
 
 @Injectable()
 export class SqsService implements OnModuleInit {

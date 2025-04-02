@@ -1,8 +1,8 @@
 import { Controller, Body, Post, Get, Query } from '@nestjs/common';
-import { DynamoDBService } from 'src/dynamodb/dynamodb.service';
+import { DynamoDBService } from 'src/modules/dynamodb/dynamodb.service';
 import { ApiBody, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CreateCLogDto } from './dto/create-c-log.dto';
-import { SnsService } from 'src/sns/sns.service';
+import { SnsService } from 'src/modules/sns/sns.service';
 
 @Controller('c-logs')
 @ApiTags('c-logs')
