@@ -72,8 +72,8 @@ A serverless logging system built with **NestJS**, **AWS SNS**, **SQS**, and **D
   **Body Example:**
   ```json
   {
-    "protocol": "SMS",
-    "endpoint": "+18294322305"
+    "protocol": "EMAIL",
+    "endpoint": "bryantperezgarcia005@gmail.com"
   }
   ```
 
