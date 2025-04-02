@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { CLogsModule } from './c-logs/c-logs.module';
 import { DynamoDBModule } from './dynamodb/dynamodb.module';
+import { SqsModule } from './sqs/sqs.module';
+import { SnSModule } from './sns/sns.module';
 
 @Module({
   imports: [
@@ -12,6 +14,8 @@ import { DynamoDBModule } from './dynamodb/dynamodb.module';
     }),
     CLogsModule,
     DynamoDBModule,
+    SqsModule,
+    SnSModule,
   ],
   controllers: [AppController],
   providers: [AppService],

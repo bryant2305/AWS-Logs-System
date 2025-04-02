@@ -15,13 +15,23 @@ export class CLogsController {
   @Post('add-logs')
   @ApiBody({ type: CreateCLogDto })
   async addLog(@Body() log: CreateCLogDto) {
-    console.log('Recibido logg:', log);
+    console.log('Recibido log:', log);
 
+    // 1. Guardar en DynamoDB
     await this.dynamoDBService.putItem('Logs', log);
 
-    await this.snsService.publishMessage(log.level, JSON.stringify(log));
+    // 2. Publicar en el topic de logs
+    await this.snsService.publishMessage(
+      process.env.LOGS_TOPIC_ARN,
+      JSON.stringify(log),
+    );
 
-    return { message: 'Log added successfullyy' };
+    // 3. Si es error, notificar al usuario
+    if (log.level === 'ERROR') {
+      await this.snsService.notifyUser(log);
+    }
+
+    return { message: 'Log added successfully' };
   }
 
   @Get('get-logs')
