@@ -19,8 +19,8 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const config = new DocumentBuilder()
     .addBearerAuth()
-    .setTitle('Fitness Api')
-    .setDescription('An Api FOR HEALTY')
+    .setTitle('AWS LOGS')
+    .setDescription('API for AWS Logs')
     .setVersion('1.0')
     .build();
   app.setGlobalPrefix('api');

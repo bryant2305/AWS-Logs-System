@@ -2,8 +2,10 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { CLogsModule } from './c-logs/c-logs.module';
-import { DynamoDBModule } from './dynamodb/dynamodb.module';
+import { CLogsModule } from './modules/c-logs/c-logs.module';
+import { DynamoDBModule } from './modules/dynamodb/dynamodb.module';
+import { SqsModule } from './modules/sqs/sqs.module';
+import { SnSModule } from './modules/sns/sns.module';
 
 @Module({
   imports: [
@@ -12,6 +14,8 @@ import { DynamoDBModule } from './dynamodb/dynamodb.module';
     }),
     CLogsModule,
     DynamoDBModule,
+    SqsModule,
+    SnSModule,
   ],
   controllers: [AppController],
   providers: [AppService],
