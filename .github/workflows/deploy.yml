@@ -58,8 +58,8 @@ jobs:
         run: npm ci
       - name: Run tests
         run: npm test
-      - name: Install Serverless
-        run: npm install -g serverless
+      - name: Install Serverless v3
+        run: npm install -g serverless@3.29.0
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
