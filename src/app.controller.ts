@@ -5,8 +5,8 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get('docs')
-  getDocsDebug() {
-    return { message: 'Hello World!' };
+  @Get('health-check')
+  healthCheck() {
+    return { message: 'pong!!' };
   }
 }
