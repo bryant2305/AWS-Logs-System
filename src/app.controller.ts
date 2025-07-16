@@ -7,6 +7,6 @@ export class AppController {
 
   @Get('health-check')
   healthCheck() {
-    return { message: 'pong!!' };
+    return 'pong!!';
   }
 }
