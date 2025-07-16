@@ -14,7 +14,7 @@ provider:
 
   # Añade estas variables globales
   environment:
-    LogsTableName: LogsV2
+    LOGS_TABLE_NAME: LogsV2
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     SQS_QUEUE_URL: !Ref LogsSQSQueue
     USER_NOTIFICATIONS_TOPIC_ARN: !Ref UserNotificationsTopic
