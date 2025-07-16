@@ -18,7 +18,7 @@ export class CLogsController {
     console.log('Recibido log:', log);
 
     // 1. Guardar en DynamoDB
-    await this.dynamoDBService.putItem('Logs', log);
+    await this.dynamoDBService.putItem(process.env.LOGS_TABLE_NAME, log);
 
     // 2. Publicar en el topic de logs
     await this.snsService.publishMessage(
@@ -61,12 +61,15 @@ export class CLogsController {
     @Query('startTime') startTime: string,
     @Query('endTime') endTime: string,
   ) {
-    const logs = await this.dynamoDBService.queryLogs('Logs', {
-      appId,
-      level,
-      startTime,
-      endTime,
-    });
+    const logs = await this.dynamoDBService.queryLogs(
+      process.env.LOGS_TABLE_NAME,
+      {
+        appId,
+        level,
+        startTime,
+        endTime,
+      },
+    );
     return logs;
   }
 }
