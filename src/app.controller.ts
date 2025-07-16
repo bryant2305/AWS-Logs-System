@@ -7,6 +7,6 @@ export class AppController {
 
   @Get('docs')
   getDocsDebug() {
-    return { message: 'Swagger docs route is accessible!' };
+    return { message: 'Hello World!' };
   }
 }
