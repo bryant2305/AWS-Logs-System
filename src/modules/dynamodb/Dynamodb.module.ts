@@ -18,3 +18,4 @@ import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
   exports: ['DYNAMODB_CLIENT'],
 })
 export class DynamoDBModule {}
+ 
