@@ -15,8 +15,8 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "pong!!"', () => {
-      expect(appController.healthCheck()).toBe('pong!!');
+    it('should return "pong!!!"', () => {
+      expect(appController.healthCheck()).toBe('pong!!!');
     });
   });
 });
