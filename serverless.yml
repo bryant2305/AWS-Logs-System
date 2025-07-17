@@ -6,11 +6,11 @@ provider:
   name: aws
   runtime: nodejs18.x
   architecture: arm64
-  stage: production
   region: us-east-2
   memorySize: 256
   logRetentionInDays: 1
   timeout: 15
+  stage: ${opt:stage, 'dev'}
 
   # Añade estas variables globales
   environment:
