@@ -9,6 +9,8 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import * as cdk from 'aws-cdk-lib';
 import * as apigwv2 from 'aws-cdk-lib/aws-apigatewayv2';
 import * as integrations from 'aws-cdk-lib/aws-apigatewayv2-integrations';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import path from 'path';
 
 export class MyNestjsAppCdkStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
@@ -57,13 +59,22 @@ export class MyNestjsAppCdkStack extends Stack {
     // 🔐 Permisos para SNS → SQS (CDK lo maneja con SqsSubscription)
 
     // 🧠 Lambda
-    const apiFn = new lambda.Function(this, 'ApiLambda', {
+    const apiFn = new NodejsFunction(this, 'ApiLambda', {
       runtime: lambda.Runtime.NODEJS_18_X,
       architecture: lambda.Architecture.ARM_64,
       memorySize: 256,
       timeout: Duration.seconds(15),
-      code: lambda.Code.fromAsset('../../dist'),
-      handler: 'lambda.handler',
+      entry: '../../src/lambda.ts', // Usa `entry` en lugar de `code` para NodejsFunction
+      handler: 'handler',
+      bundling: {
+        externalModules: [
+          '@nestjs/microservices',
+          '@nestjs/websockets',
+          '@nestjs/websockets/socket-module',
+          '@nestjs/microservices/microservices-module',
+          'class-transformer/storage',
+        ],
+      },
       environment: {
         LOGS_TABLE_NAME: logsTable.tableName,
         AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
