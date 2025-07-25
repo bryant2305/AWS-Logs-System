@@ -11,7 +11,9 @@ export class DynamoDBService {
   constructor(
     @Inject('DYNAMODB_CLIENT')
     private readonly dynamoDbClient: DynamoDBDocumentClient,
-  ) {}
+  ) {
+    console.log('DynamoClient está definido?', !!dynamoDbClient); // => debería ser true
+  }
 
   async putItem(tableName: string, item: Record<string, any>) {
     const command = new PutCommand({

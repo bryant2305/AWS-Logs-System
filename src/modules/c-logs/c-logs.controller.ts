@@ -3,6 +3,7 @@ import { DynamoDBService } from 'src/modules/dynamodb/dynamodb.service';
 import { ApiBody, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CreateCLogDto } from './dto/create-c-log.dto';
 import { SnsService } from 'src/modules/sns/sns.service';
+import { PutCommand } from '@aws-sdk/lib-dynamodb';
 
 @Controller('c-logs')
 @ApiTags('c-logs')
@@ -10,12 +11,21 @@ export class CLogsController {
   constructor(
     private dynamoDBService: DynamoDBService,
     private readonly snsService: SnsService,
-  ) {}
+  ) {
+    // 👇 AÑADE ESTE LOG DE DIAGNÓSTICO
+    console.log(
+      '✅ CONSTRUCTOR CLogsController: Inyección de dynamoDBService:',
+      !!this.dynamoDBService,
+    );
+  }
 
   @Post('add-logs')
   @ApiBody({ type: CreateCLogDto })
   async addLog(@Body() log: CreateCLogDto) {
     console.log('Recibido log:', log);
+
+    console.log('🧪 Tabla recibida:', process.env.LOGS_TABLE_NAME);
+    console.log('🧪 dynamoDBService está definido?', !!this.dynamoDBService);
 
     // 1. Guardar en DynamoDB
     await this.dynamoDBService.putItem(process.env.LOGS_TABLE_NAME, log);
