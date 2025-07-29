@@ -17,6 +17,7 @@ import { SnSModule } from './modules/sns/sns.module';
     SqsModule,
     SnSModule,
   ],
+
   controllers: [AppController],
   providers: [AppService],
 })

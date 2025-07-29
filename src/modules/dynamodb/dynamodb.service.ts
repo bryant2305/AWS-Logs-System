@@ -1,29 +1,29 @@
-import { Inject, Injectable } from '@nestjs/common';
-import {
-  DynamoDBDocumentClient,
-  PutCommand,
-  QueryCommand,
-  ScanCommand,
-} from '@aws-sdk/lib-dynamodb';
+import { Inject, Injectable, Logger } from '@nestjs/common';
+import { QueryCommand, ScanCommand } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 
 @Injectable()
 export class DynamoDBService {
+  private readonly logger = new Logger(DynamoDBService.name);
+  private readonly tableName = process.env.LOGS_TABLE_NAME || 'LogsV2';
+
   constructor(
     @Inject('DYNAMODB_CLIENT')
-    private readonly dynamoDbClient: DynamoDBDocumentClient,
+    private readonly client: DynamoDBDocumentClient,
   ) {}
 
   async putItem(tableName: string, item: Record<string, any>) {
+    this.logger.log(`Insertando en tabla: ${tableName}`);
     const command = new PutCommand({
       TableName: tableName,
       Item: item,
     });
-    return this.dynamoDbClient.send(command);
+    await this.client.send(command);
   }
 
   async scanTable(tableName: string) {
     const command = new ScanCommand({ TableName: tableName });
-    return this.dynamoDbClient.send(command);
+    return this.client.send(command);
   }
 
   async queryLogs(
@@ -83,6 +83,6 @@ export class DynamoDBService {
 
     // Usa `QueryCommand` o `ScanCommand` dependiendo de `appId`
     const command = appId ? new QueryCommand(params) : new ScanCommand(params);
-    return this.dynamoDbClient.send(command);
+    return this.client.send(command);
   }
 }
