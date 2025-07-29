@@ -4,6 +4,17 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Terraform
+.terraform/                      
+.terraform.lock.hcl              
+terraform.tfstate               
+terraform.tfstate.backup        
+*.tfstate                        
+
+# Lambda package
+nestjs-api.zip            
+
+
 # Serverless Framework
 .serverless/
 .sls-next/
