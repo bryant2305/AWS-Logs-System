@@ -13,8 +13,8 @@ import { DynamoDBService } from './dynamodb.service';
         return DynamoDBDocumentClient.from(client);
       },
     },
-    DynamoDBService,
+    DynamoDBService, // inyección por clase directa
   ],
-  exports: [DynamoDBService], // 🔁 exporta ambos
+  exports: [DynamoDBService],
 })
 export class DynamoDBModule {}

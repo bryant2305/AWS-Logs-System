@@ -3,7 +3,6 @@ import { DynamoDBService } from 'src/modules/dynamodb/dynamodb.service';
 import { ApiBody, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CreateCLogDto } from './dto/create-c-log.dto';
 import { SnsService } from 'src/modules/sns/sns.service';
-import { PutCommand } from '@aws-sdk/lib-dynamodb';
 
 @Controller('c-logs')
 @ApiTags('c-logs')
@@ -26,6 +25,13 @@ export class CLogsController {
 
     console.log('🧪 Tabla recibida:', process.env.LOGS_TABLE_NAME);
     console.log('🧪 dynamoDBService está definido?', !!this.dynamoDBService);
+    console.log('Inyección de servicio:', this.dynamoDBService);
+    console.log(
+      'Metadata provider:',
+      Reflect.getMetadataKeys(Object.getPrototypeOf(this)).map((k) =>
+        Reflect.getMetadata(k, Object.getPrototypeOf(this)),
+      ),
+    );
 
     // 1. Guardar en DynamoDB
     await this.dynamoDBService.putItem(process.env.LOGS_TABLE_NAME, log);

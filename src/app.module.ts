@@ -16,7 +16,6 @@ import { SnSModule } from './modules/sns/sns.module';
     DynamoDBModule,
     SqsModule,
     SnSModule,
-    ConfigModule.forRoot({ isGlobal: true }),
   ],
 
   controllers: [AppController],
