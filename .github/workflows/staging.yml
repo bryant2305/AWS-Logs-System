@@ -48,7 +48,7 @@ jobs:
     needs: build
     defaults:
       run:
-        working-directory: terraform 
+        working-directory: terraform # 👈 Asegúrate de que el código Terraform esté en terraform/
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -58,7 +58,6 @@ jobs:
         with:
           name: dist
           path: dist
-      # ▲▲▲ FIN DEL PASO AÑADIDO ▲▲▲
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -71,30 +70,20 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
-      
-      # ▼▼▼ PASO MODIFICADO ▼▼▼
-      # Se ejecuta desde la raíz para encontrar 'dist' y crear 'build'.
+
       - name: Zip Lambda
         run: |
           mkdir -p build
-          zip -r build/nestjs-api.zip . -i dist/
-        working-directory: . # <-- Anula el 'working-directory' por defecto para este paso
+          zip -r build/nestjs-api.zip ../dist/*
 
-      # ▼▼▼ PASO MODIFICADO ▼▼▼
-      # Se ejecuta desde la raíz para encontrar 'build/nestjs-api.zip'.
       - name: Inspect ZIP content
         run: unzip -l build/nestjs-api.zip
-        working-directory: . # <-- Anula el 'working-directory' por defecto para este paso
 
-      # Los pasos de Terraform seguirán usando el 'working-directory: terraform' por defecto.
       - name: Terraform Init
         run: terraform init
 
       - name: Terraform Plan
-        run: |
-          mkdir -p build
-          zip -r build/nestjs-api.zip . -i dist/
-          terraform plan -out=tfplan
+        run: terraform plan -out=tfplan
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
