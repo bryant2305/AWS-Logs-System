@@ -48,7 +48,7 @@ jobs:
     needs: build
     defaults:
       run:
-        working-directory: terraform 
+        working-directory: . 
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
