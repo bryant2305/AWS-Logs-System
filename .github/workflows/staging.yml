@@ -48,15 +48,26 @@ jobs:
     needs: build
     defaults:
       run:
+        # El directorio de trabajo por defecto para los pasos será 'terraform'
         working-directory: terraform 
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
+      # ▼▼▼ PASO AÑADIDO ▼▼▼
+      # Descarga el artefacto 'dist' desde el job de 'build'
+      # al directorio raíz del checkout.
+      - name: Download dist artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+      # ▲▲▲ FIN DEL PASO AÑADIDO ▲▲▲
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.6.6 #
+          terraform_version: 1.6.6
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -65,19 +76,27 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
       
+      # ▼▼▼ PASO MODIFICADO ▼▼▼
+      # Se ejecuta desde la raíz para encontrar 'dist' y crear 'build'.
       - name: Zip Lambda
         run: |
           mkdir -p build
-          zip -r build/nestjs-api.zip . -i dist/
+          # Comprime el contenido del directorio 'dist' en 'build/nestjs-api.zip'
+          cd dist && zip -r ../build/nestjs-api.zip .
+        working-directory: . # <-- Anula el 'working-directory' por defecto para este paso
 
+      # ▼▼▼ PASO MODIFICADO ▼▼▼
+      # Se ejecuta desde la raíz para encontrar 'build/nestjs-api.zip'.
+      - name: Inspect ZIP content
+        run: unzip -l build/nestjs-api.zip
+        working-directory: . # <-- Anula el 'working-directory' por defecto para este paso
+
+      # Los pasos de Terraform seguirán usando el 'working-directory: terraform' por defecto.
       - name: Terraform Init
         run: terraform init
 
-      - name: Inspect ZIP content
-        run: unzip -l build/nestjs-api.zip
-        working-directory: ./terraform
-
       - name: Terraform Plan
+        # Asegúrate que tu archivo .tf busca el zip en la ruta correcta: ../build/nestjs-api.zip
         run: terraform plan -out=tfplan
 
       - name: Terraform Apply
