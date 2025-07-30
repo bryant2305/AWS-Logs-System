@@ -68,7 +68,7 @@ jobs:
       - name: Zip Lambda
         run: |
           mkdir -p build
-          zip -r build/nestjs-api.zip dist/
+          zip -r build/nestjs-api.zip . -i dist/
 
       - name: Terraform Init
         run: terraform init
