@@ -73,6 +73,10 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
+      - name: Inspect ZIP content
+        run: unzip -l build/nestjs-api.zip
+        working-directory: ./terraform
+
       - name: Terraform Plan
         run: terraform plan -out=tfplan
 
