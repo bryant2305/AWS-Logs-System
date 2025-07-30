@@ -79,7 +79,7 @@ jobs:
           mkdir -p build
           if [ ! -d dist ]; then echo "dist no existe"; ls -la; exit 1; fi
           zip -r build/nestjs-api.zip dist/*
-
+        working-directory: ..
 
 
       # ▼▼▼ PASO MODIFICADO ▼▼▼
