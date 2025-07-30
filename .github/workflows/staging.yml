@@ -77,8 +77,10 @@ jobs:
       - name: Zip Lambda
         run: |
           mkdir -p build
-          zip -r build/nestjs-api.zip . -i dist/
-        working-directory: . # <-- Anula el 'working-directory' por defecto para este paso
+          cd dist
+          zip -r ../build/nestjs-api.zip .
+          working-directory: . # <-- raíz del proyecto
+
 
       # ▼▼▼ PASO MODIFICADO ▼▼▼
       # Se ejecuta desde la raíz para encontrar 'build/nestjs-api.zip'.
