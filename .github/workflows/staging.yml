@@ -91,7 +91,6 @@ jobs:
         run: terraform init
 
       - name: Terraform Plan
-        # Asegúrate que tu archivo .tf busca el zip en la ruta correcta: ../build/nestjs-api.zip
         run: |
           mkdir -p build
           zip -r build/nestjs-api.zip . -i dist/
