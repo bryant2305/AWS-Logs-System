@@ -63,8 +63,8 @@ jobs:
       - name: Create Lambda Layer and Code Packages
         run: |
           echo "Step 1: Creating function-code.zip from dist artifact..."
-          zip -r build/function-code.zip ./dist/*
-
+          zip -r function-code.zip ./dist/*
+          
           echo "Step 2: Installing production dependencies for the layer..."
           yarn install --production
           
@@ -96,6 +96,7 @@ jobs:
         working-directory: ./terraform
 
       - name: Terraform Apply
+
         if: github.ref == 'refs/heads/main'
         run: terraform apply -auto-approve tfplan
         working-directory: ./terraform
