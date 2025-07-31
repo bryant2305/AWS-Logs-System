@@ -6,9 +6,9 @@ resource "aws_s3_bucket" "lambda_bucket" {
 # Objeto S3 que contiene el paquete ZIP de la aplicación
 resource "aws_s3_object" "lambda_zip" {
   bucket = aws_s3_bucket.lambda_bucket.id
-  key    = "nestjs-api.zip"
-  source = "build/nestjs-api.zip" # Asegúrate que esta ruta es correcta
-  etag   = filemd5("build/nestjs-api.zip")
+  key    = "function-code.zip"
+  source = "build/function-code.zip" # ✅ CORREGIDO: Asumimos que el zip está en la raíz
+  etag   = filemd5("build/function-code.zip")
 }
 
 # DynamoDB Table para logs
@@ -19,7 +19,7 @@ resource "aws_dynamodb_table" "logs_table" {
 
   attribute {
     name = "id"
-    type = "S" # Se recomienda 'S' para IDs. Cambia a "N" si es estrictamente numérico.
+    type = "S"
   }
 
   ttl {
@@ -53,9 +53,9 @@ resource "aws_sns_topic" "user_notifications" {
 
 # SQS Queue para procesar logs
 resource "aws_sqs_queue" "logs_queue" {
-  name                        = "logs-queue-${var.stage}"
-  visibility_timeout_seconds  = 30
-  message_retention_seconds   = 1209600 # 14 días
+  name                      = "logs-queue-${var.stage}"
+  visibility_timeout_seconds = 30
+  message_retention_seconds  = 1209600 # 14 días
   tags = {
     Environment = var.stage
     Application = var.app_name
@@ -158,18 +158,33 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
+# Layer
+resource "aws_lambda_layer_version" "nestjs_dependencies" {
+  layer_name        = "my-nestjs-app-dependencies"
+  filename          = "build/dependencies.zip" # ✅ CORREGIDO: Asumimos que el zip está en la raíz
+  source_code_hash  = filebase64sha256("build/dependencies.zip")
+  compatible_runtimes = ["nodejs20.x"]
+}
+
 # Función Lambda
 resource "aws_lambda_function" "nestjs_api" {
-  function_name    = "${var.app_name}-${var.stage}"
+  function_name = "${var.app_name}-${var.stage}"
+  
+  # ✅ CORREGIDO: Usamos solo S3 para el código fuente
   s3_bucket        = aws_s3_bucket.lambda_bucket.id
   s3_key           = aws_s3_object.lambda_zip.key
-  handler          = "dist/lambda.handler"
-  source_code_hash = filebase64sha256("build/nestjs-api.zip") # ✅ esta línea
-  runtime          = "nodejs18.x"
+  
+  # ❌ ELIMINADO: Se quitan 'filename' y 'source_code_hash' para evitar conflicto
+  # filename         = "function-code.zip"
+  # source_code_hash = filebase64sha256("build/function-code.zip")
+  
+  handler          = "dist/lambda.handler" # ✅ CORREGIDO: La ruta del handler es ahora correcta
+  runtime          = "nodejs20.x"     # ✅ CORREGIDO: El runtime debe coincidir con la capa
   role             = aws_iam_role.lambda_role.arn
   timeout          = 15
   memory_size      = 256
   architectures    = ["arm64"]
+  layers = [aws_lambda_layer_version.nestjs_dependencies.arn]
 
   environment {
     variables = {
