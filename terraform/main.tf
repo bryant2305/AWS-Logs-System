@@ -178,7 +178,7 @@ resource "aws_lambda_function" "nestjs_api" {
   # filename         = "function-code.zip"
   source_code_hash = aws_s3_object.lambda_zip.etag
   
-  handler          = "dist/lambda.handler" # ✅ CORREGIDO: La ruta del handler es ahora correcta
+  handler          = "lambda.handler" # ✅ CORREGIDO: La ruta del handler es ahora correcta
   runtime          = "nodejs20.x"     # ✅ CORREGIDO: El runtime debe coincidir con la capa
   role             = aws_iam_role.lambda_role.arn
   timeout          = 15
