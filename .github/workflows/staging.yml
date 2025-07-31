@@ -76,9 +76,9 @@ jobs:
           zip -r dependencies.zip ./nodejs
 
           echo "Step 5: Move zips to build/ directory for Terraform"
-          mkdir -p build
-          mv function-code.zip build/
-          mv dependencies.zip build/
+          mkdir -p terraform/build
+          mv function-code.zip terraform/build/
+          mv dependencies.zip terraform/build/
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
