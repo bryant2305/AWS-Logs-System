@@ -89,15 +89,13 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        # Si tu código de terraform está en un subdirectorio, usa:
-        # working-directory: ./terraform
+        working-directory: ./terraform
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan
-        # working-directory: ./terraform
+        working-directory: ./terraform
 
       - name: Terraform Apply
-        # Solo aplica automáticamente en la rama 'main'
         if: github.ref == 'refs/heads/main'
         run: terraform apply -auto-approve tfplan
-        # working-directory: ./terraform
+        working-directory: ./terraform
