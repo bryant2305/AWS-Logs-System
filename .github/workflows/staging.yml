@@ -75,6 +75,11 @@ jobs:
           echo "Step 4: Zipping dependencies for the layer..."
           zip -r dependencies.zip ./nodejs
 
+          echo "Step 5: Move zips to build/ directory for Terraform"
+          mkdir -p build
+          mv function-code.zip build/
+          mv dependencies.zip build/
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
