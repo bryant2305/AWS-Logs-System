@@ -3,7 +3,7 @@ resource "aws_s3_bucket" "lambda_bucket" {
   bucket = "lambda-deploy-${var.app_name}-${var.stage}-${var.region}"
 }
 
-# Objeto S3 que contiene el paquete ZIP de la aplicación
+# Objeto S3 que contiene el paquete ZIP de la aplicacion
 resource "aws_s3_object" "lambda_zip" {
   bucket = aws_s3_bucket.lambda_bucket.id
   key    = "function-code.zip"
