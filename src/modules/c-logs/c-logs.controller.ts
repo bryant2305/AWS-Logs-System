@@ -31,7 +31,7 @@ export class CLogsController {
       await this.snsService.notifyUser(log);
     }
 
-    return { message: 'Log added successfully!' };
+    return { message: 'Log added successfully!!!!' };
   }
 
   @Get('get-logs')
